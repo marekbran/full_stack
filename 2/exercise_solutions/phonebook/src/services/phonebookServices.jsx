@@ -12,12 +12,12 @@ const create = newObject=> {
 }
 
 const del = (id) => {
-  return axios.delete(`${baseUrl}/${id}`).then(response => response.data);
+  return axios.delete(`${baseUrl}/${id}`).then(response => response.data).catch(error => console.log(error))
 }
  
 const update = (id, newObject) => {
   const request = axios.put(`${baseUrl}/${id}`, newObject)
-  return request.then(response => response.data)
+  return request.then(response => response.data).catch(error => console.log(error))
 }
 
 

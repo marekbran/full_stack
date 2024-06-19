@@ -1,13 +1,28 @@
 import { useState, useEffect } from 'react'
 import phonebookServices from './services/phonebookServices'
 
-const Numbers = ({persons, setPersons}) => {
+
+const Numbers = ({persons, setPersons, setNewError, setNewMessage}) => {
   const delet = (event, personId) => {
     event.preventDefault()
     if (window.confirm(`Delete ${persons.find(p => p.id === personId).name}?`)) {
       phonebookServices.del(personId).then(() => {
         setPersons(persons.filter(p => p.id !== personId))
+      }).catch(error => {
+        console.log(error.response.data)
+        setNewError(
+          `${persons.find(p => p.id === personId).name} has already been deleted`
+        )
+        setTimeout(() => {
+          setNewMessage(null)
+        }, 5000)
       })
+      setNewMessage(
+        `${persons.find(p => p.id === personId).name} has been deleted`
+      )
+      setTimeout(() => {
+        setNewMessage(null)
+      }, 5000)
     }
   }
 
@@ -46,17 +61,46 @@ const PersonForm = ({addPerson, newName, setNewName, newNumber, setNewNumber}) =
   )
 }
 
-const Filter = ({nameFilter, setNameFilter, filteredPersons}) => {
+const Filter = ({nameFilter, filterPeople, filteredPersons}) => {
+
   return (
-    <div>
-      filter shown with <input
-        value={nameFilter}
-        onChange={(event) => setNameFilter(event.target.value)}
-      />
+    <form >
+      <div>
+        filter shown with <input
+          value={nameFilter}
+          onChange={(event) => filterPeople(event)}
+        />
+      </div>
+      {filteredPersons.map(person => (
+        <div key={person.id}> {person.name} {person.number}</div>
+      ))}
+    </form>
+  )
+}
+
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className='notification'>
+      {message}
     </div>
   )
 }
 
+const Error = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className='error'>
+      {message}
+    </div>
+  )
+}
 
 
 const App = () => {
@@ -65,6 +109,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [nameFilter, setNameFilter] = useState('')
   const [filteredPersons, setFilteredPersons] = useState([]);
+  const [newMessage, setNewMessage] = useState(null)
+  const [newError, setNewError] = useState(null)
 
   useEffect(() => {
     phonebookServices.getAll()
@@ -90,7 +136,14 @@ const App = () => {
           setPersons(persons.map(person => person.id !== returnedPerson.id ? person : returnedPerson))
         }).catch(error => {
           console.log(error.response.data)
+          setNewError(error.response.data.error)
         })
+        setNewMessage(
+          `${newName} has been updated`
+        )
+        setTimeout(() => {
+          setNewMessage(null)
+        }, 5000)
         setNewName('')
         setNewNumber('')
       }
@@ -100,7 +153,14 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         }).catch(error => {
           console.log(error.response.data)
+          setNewError(error.response.data.error)
         })
+        setNewMessage(
+          `${newName} has been added to phonebook`
+        )
+        setTimeout(() => {
+          setNewMessage(null)
+        }, 5000)
         setNewName('')
         setNewNumber('')
     }
@@ -119,14 +179,17 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
 
+      <Notification message={newMessage} />
+      <Error message={newError} />
+
       <h3>Filter</h3>
-      <Filter nameFilter={nameFilter} setNameFilter={filterPeople} filteredPersons={filteredPersons} />
+      <Filter nameFilter={nameFilter} filterPeople={filterPeople} filteredPersons={filteredPersons} />
 
       <h3>Add new entry</h3>
       <PersonForm addPerson={addPerson} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} />
       
       <h2>Numbers</h2>
-      <Numbers persons={persons} setPersons={setPersons} />
+      <Numbers persons={persons} setPersons={setPersons} setNewError={setNewError} setNewMessage={setNewMessage} />
     </div>
   )
 }
