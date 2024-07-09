@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js",
-    "test": "node --test",
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
+    "test": "NODE_ENV=test node --test",
     "lint": "eslint ."
   },
   "author": "MarekBran",
@@ -16,6 +16,12 @@
     "dotenv": "^16.4.5",
     "eslint": "^9.6.0",
     "express": "^4.19.2",
+    "express-async-errors": "^3.1.1",
+    "lodash": "^4.17.21",
     "mongoose": "^8.5.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "supertest": "^7.0.0"
   }
 }
