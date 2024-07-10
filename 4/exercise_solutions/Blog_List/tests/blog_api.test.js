@@ -111,6 +111,47 @@ test('blog without url is not added', async () => {
   assert.strictEqual(response.body.length, helper.initialblogs.length);
 });
 
+test('a blog can be deleted', async () => {
+  const response = await api.get('/api/blogs');
+  const blogToDelete = response.body[0];
+
+  await api
+    .delete(`/api/blogs/${blogToDelete.id}`)
+    .expect(204);
+
+  const responseAfterDelete = await api.get('/api/blogs');
+  assert.strictEqual(responseAfterDelete.body.length, helper.initialblogs.length - 1);
+
+  const titles = responseAfterDelete.body.map(r => r.title);
+  assert.ok(!titles.includes(blogToDelete.title));
+});
+
+test('a blog can be updated', async () => {
+  const response = await api.get('/api/blogs');
+  const blogToUpdate = response.body[0];
+
+  const updatedBlog = {
+    title: 'Updated title',
+    author: 'Updated author',
+    url: 'http://example.com/updated',
+    likes: blogToUpdate.likes + 1,
+  };
+
+  await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(updatedBlog)
+    .expect(200);
+
+  const responseAfterUpdate = await api.get('/api/blogs');
+  const updatedBlogFromDb = responseAfterUpdate.body.find(blog => blog.id === blogToUpdate.id);
+
+  assert.strictEqual(updatedBlogFromDb.title, updatedBlog.title);
+  assert.strictEqual(updatedBlogFromDb.author, updatedBlog.author);
+  assert.strictEqual(updatedBlogFromDb.url, updatedBlog.url);
+  assert.strictEqual(updatedBlogFromDb.likes, updatedBlog.likes);
+});
+
+
 
 after(async () => {
   await mongoose.connection.close()
