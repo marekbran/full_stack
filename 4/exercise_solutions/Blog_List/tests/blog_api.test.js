@@ -6,10 +6,11 @@ const app = require('../app')
 const lodash = require('lodash')
 
 const api = supertest(app)
-
+const bcrypt = require('bcrypt')
 const helper = require('./test_helper')
 
 const Blog = require('../models/blog')
+
 
 
 
@@ -149,7 +150,9 @@ test('a blog can be updated', async () => {
   assert.strictEqual(updatedBlogFromDb.author, updatedBlog.author);
   assert.strictEqual(updatedBlogFromDb.url, updatedBlog.url);
   assert.strictEqual(updatedBlogFromDb.likes, updatedBlog.likes);
-});
+})
+
+
 
 
 
