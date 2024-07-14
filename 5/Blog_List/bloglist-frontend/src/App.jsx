@@ -6,6 +6,7 @@ import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
+
 const Notification = ({ message }) => {
   if (message === null) {
     return null
@@ -80,6 +81,15 @@ const App = () => {
     setUser(null)
   }
 
+  const updateBlog = (updatedBlog) => {
+    setBlogs(blogs.map(blog => blog.id !== updatedBlog.id ? blog : updatedBlog))
+  }
+
+  const deleteBlog = (id) => {
+    setBlogs(blogs.filter(blog => blog.id !== id))
+    Blog
+  }
+
   return (
     <div>
       <Notification message={newMessage} />
@@ -102,7 +112,9 @@ const App = () => {
             <BlogForm addBlog={addBlog} />
           </Togglable>
           <h2>blogs</h2>
-          {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
+          {blogs.map(blog => (
+            <Blog key={blog.id} blog={blog} updateBlog={updateBlog} deleteBlog={deleteBlog} />
+          ))}
         </div>
       )}
     </div>
