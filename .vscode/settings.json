@@ -2,5 +2,7 @@
     "cSpell.words": [
         "delet",
         "Phonebook"
-    ]
+    ],
+    "eslint.workingDirectories": [{ "mode": "auto" }],
+    "eslint.alwaysShowStatus": true
 }

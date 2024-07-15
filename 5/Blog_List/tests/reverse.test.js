@@ -45,8 +45,8 @@ describe('total likes', () => {
       likes: 9,
       id: '668d6a8d3beec5126cf4d852',
       __v: 0
-  }
-    
+    }
+
   ]
 
   test('when list has more than one blog, equals the likes of that', () => {
@@ -105,8 +105,8 @@ describe('most blogs', () => {
       likes: 9,
       id: '668d6a8d3beec5126cf4d852',
       __v: 0
-  }
-    
+    }
+
   ]
   test('author with most blogs', () => {
     const result = listHelper.mostBlogs(listWithOneBlog)
@@ -140,8 +140,8 @@ describe('most likes', () => {
       likes: 9,
       id: '668d6a8d3beec5126cf4d852',
       __v: 0
-  }
-    
+    }
+
   ]
   test('author with most likes', () => {
     const result = listHelper.mostLikes(listWithOneBlog)

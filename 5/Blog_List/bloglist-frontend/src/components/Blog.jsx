@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, updateBlog, deleteBlog }) => {
+const Blog = ({ blog, onLike, onDelete }) => {
   const [visible, setVisible] = useState(false)
 
   const toggleVisibility = () => {
@@ -13,21 +14,21 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
       ...blog,
       likes: blog.likes + 1
     }
-    const returnedBlog = await blogService.update(blog.id, updatedBlog)
-    updateBlog(returnedBlog)
+    await blogService.update(blog.id, updatedBlog)
+    onLike(updatedBlog)
   }
 
-  const handleDelete = async () => {
-    if (window.confirm(`Delete blog ${blog.title} by ${blog.author}?`)) {
-      await blogService.del(blog.id)
-      deleteBlog(blog.id)
+  const handleDelete = () => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+      blogService.remove(blog.id)
+      onDelete(blog.id)
     }
   }
 
   return (
     <div>
       <div>
-        {blog.title} 
+        {blog.title}
         <button onClick={toggleVisibility}>
           {visible ? 'hide' : 'view'}
         </button>
@@ -35,13 +36,25 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
       {visible && (
         <div>
           <p>author: {blog.author}</p>
-          <p>url : {blog.url}</p>
+          <p>url: {blog.url}</p>
           <p>{blog.likes} likes <button onClick={handleLike}>like</button></p>
           <button onClick={handleDelete}>delete</button>
         </div>
       )}
     </div>
   )
+}
+
+Blog.propTypes = {
+  blog: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    likes: PropTypes.number.isRequired,
+  }).isRequired,
+  onLike: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 }
 
 export default Blog

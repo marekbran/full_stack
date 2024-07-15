@@ -2,22 +2,22 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 
 const initialblogs = [
-    {
-        _id: '668d39265278c26667d03476',
-        title: 'b',
-        author: 'b',
-        url: 'b',
-        likes: 8,
-        __v: 0
-    },
-    {
-      title: 'aa',
-      author: 'a',
-      url: 'aa',
-      likes: 9,
-      id: '668d6a8d3beec5126cf4d852',
-      __v: 0
-    }
+  {
+    _id: '668d39265278c26667d03476',
+    title: 'b',
+    author: 'b',
+    url: 'b',
+    likes: 8,
+    __v: 0
+  },
+  {
+    title: 'aa',
+    author: 'a',
+    url: 'aa',
+    likes: 9,
+    id: '668d6a8d3beec5126cf4d852',
+    __v: 0
+  }
 ]
 
 const nonExistingId = async () => {
@@ -35,7 +35,7 @@ const nonExistingId = async () => {
 }
 
 const blogsInDb = async () => {
-  const blogs = await Bloblog.find({})
+  const blogs = await Blog.find({})
   return blogs.map(blog => blog.toJSON())
 }
 
