@@ -1,7 +1,7 @@
-import express from 'express'
-import Blog from '../models/blog.js'
-import User from '../models/user.js'
-import jwt from 'jsonwebtoken'
+const express = require('express')
+const Blog = require('../models/blog.js')
+const User = require('../models/user.js')
+const jwt = require('jsonwebtoken')
 
 const blogsRouter = express.Router()
 
@@ -68,4 +68,4 @@ blogsRouter.put('/:id', async (request, response) => {
   response.json(updatedBlog)
 })
 
-export default blogsRouter
+module.exports = blogsRouter

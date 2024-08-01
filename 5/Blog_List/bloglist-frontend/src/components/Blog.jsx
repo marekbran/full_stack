@@ -26,15 +26,15 @@ const Blog = ({ blog, onLike, onDelete }) => {
   }
 
   return (
-    <div>
-      <div>
-        {blog.title}
+    <div className="blog">
+      <div className="blog-header">
+        {blog.title} {blog.author}
         <button onClick={toggleVisibility}>
           {visible ? 'hide' : 'view'}
         </button>
       </div>
       {visible && (
-        <div>
+        <div className="blog-details">
           <p>author: {blog.author}</p>
           <p>url: {blog.url}</p>
           <p>{blog.likes} likes <button onClick={handleLike}>like</button></p>
@@ -53,8 +53,6 @@ Blog.propTypes = {
     url: PropTypes.string.isRequired,
     likes: PropTypes.number.isRequired,
   }).isRequired,
-  onLike: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
 }
 
 export default Blog
