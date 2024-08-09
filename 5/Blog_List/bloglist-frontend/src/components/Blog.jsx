@@ -12,15 +12,15 @@ const Blog = ({ blog, onLike, onDelete }) => {
   const handleLike = async () => {
     const updatedBlog = {
       ...blog,
-      likes: blog.likes + 1
+      likes: blog.likes + 1 
     }
-    await blogService.update(blog.id, updatedBlog)
+    blogService.update(blog.id, updatedBlog)
     onLike(updatedBlog)
   }
 
   const handleDelete = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      blogService.remove(blog.id)
+      blogService.del(blog.id)
       onDelete(blog.id)
     }
   }

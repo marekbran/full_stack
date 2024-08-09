@@ -88,6 +88,16 @@ const App = () => {
   const deleteBlog = (id) => {
     setBlogs(blogs.filter(blog => blog.id !== id))
     Blog
+    blogFormRef.current.toggleVisibility()
+  }
+
+  const handleLike = async (blog) => {
+    const updatedBlog = {
+      ...blog,
+    }
+    await blogService.update(blog.id, updatedBlog)
+    updateBlog(updatedBlog)
+    blogFormRef.current()
   }
 
   return (
@@ -113,7 +123,7 @@ const App = () => {
           </Togglable>
           <h2>blogs</h2>
           {blogs.map(blog => (
-            <Blog key={blog.id} blog={blog} updateBlog={updateBlog} deleteBlog={deleteBlog} />
+            <Blog key={blog.id} blog={blog}  onDelete={deleteBlog} onLike={handleLike} />
           ))}
         </div>
       )}
