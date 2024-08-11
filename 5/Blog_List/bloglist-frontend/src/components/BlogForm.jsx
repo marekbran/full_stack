@@ -38,12 +38,13 @@ const BlogForm = ({ addBlog }) => {
       setTimeout(() => setNewError(null), 5000)
     }
   }
-
+// Updated BlogForm with placeholders
   return (
     <form onSubmit={handleSubmit}>
       <div>
         author
         <input
+          placeholder="Author"
           value={newAuthor}
           onChange={handleAuthorChange}
         />
@@ -51,6 +52,7 @@ const BlogForm = ({ addBlog }) => {
       <div>
         title
         <input
+          placeholder="Title"
           value={newTitle}
           onChange={handleTitleChange}
         />
@@ -58,6 +60,7 @@ const BlogForm = ({ addBlog }) => {
       <div>
         url
         <input
+          placeholder="URL"
           value={newUrl}
           onChange={handleUrlChange}
         />
@@ -65,6 +68,7 @@ const BlogForm = ({ addBlog }) => {
       <div>
         likes
         <input
+          placeholder="Likes"
           value={newLikes}
           onChange={handleLikesChange}
         />
@@ -73,7 +77,9 @@ const BlogForm = ({ addBlog }) => {
       {newMessage && <div className='notification'>{newMessage}</div>}
       {newError && <div className='error'>{newError}</div>}
     </form>
-  )
+  );
+
+  
 }
 
 export default BlogForm
