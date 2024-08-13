@@ -7,7 +7,8 @@
     "dev": "NODE_ENV=development nodemon index.js",
     "test": "NODE_ENV=test node --test",
     "lint": "eslint . ",
-    "vi-test": "vitest run"
+    "vi-test": "vitest run",
+    "start:test": "NODE_ENV=test node index.js"
   },
   "author": "MarekBran",
   "license": "ISC",
