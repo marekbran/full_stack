@@ -7,7 +7,7 @@ const loginWith = async (page, username, password)  => {
     await page.getByTestId('username').first().fill(username)
     await page.getByTestId('password').last().fill(password)
     await page.getByRole('button', { name: 'login' }).click()
-  }
+}
   
 
 describe('Blog app', () => {
@@ -59,16 +59,24 @@ describe('Blog app', () => {
 })
 
 describe('when logged in', () => {
-  beforeEach(async ({ page }) => {
-    await loginWith(page, 'Henryk', 'smokojebca')
+  beforeEach(async ({ page, request }) => {
+    await request.post('http://localhost:5173/api/users', {
+        data: {
+          username: 'Henryk',
+          password: 'smokojebca'
+        }
+    })
     await page.goto('http://localhost:5173')
+    await loginWith(page, 'Henryk', 'smokojebca')
+
   })
   test('a new blog can be created', async ({ page }) => {
-    await page.getByTestId('new blog').click()
+    await page.getByRole('button', { name: 'new blog' }).click()
     await page.getByTestId('title').fill('My new blog')
     await page.getByTestId('author').fill('Me')
     await page.getByTestId('url').fill('https://example.com')
-    await page.getByRole('button', { name: 'submit' }).click()
+    await page.getByTestId('likes').fill(8)
+    await page.getByRole('button', { name: 'save' }).click()
     await expect(page.getByText('My new blog')).toBeVisible()
   })
 })
